@@ -18,7 +18,7 @@ password='123456'
 #dbname_destino = 'aud_%s' % (database)
 #host_destino = 'localhost'
 user_destino = 'auditoria' #este rol debe estar creado
-password_destino '4ud1t0r14'
+password_destino = '4ud1t0r14'
 
 
 ########################################################################
