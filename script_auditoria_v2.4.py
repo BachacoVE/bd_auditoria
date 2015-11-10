@@ -6,12 +6,20 @@ import psycopg2
 # Este script crea una base datos de replica de otra, para usarla como
 # BD de auditoria. Este script genera un archivo "auditoria.sql"
 
-### Datos de Configuracion de Conexion ###
+### Datos de Configuracion de Conexion de la Base de Datos Fuente ###
 # RECUERDE MODIFICAR LOS PARAMETROS DE CONEXION
-database='f2015-des'
+database='f2015-des' #cambiar por el que corresponda
 host='localhost'
 user='postgres'
 password='123456'
+###################################################
+
+#### Datos de conexion a bases de datos destino (auditoria) (INCOMPLETO)
+#dbname_destino = 'aud_%s' % (database)
+#host_destino = 'localhost'
+user_destino = 'auditoria' #este rol debe estar creado
+password_destino '4ud1t0r14'
+
 
 ########################################################################
 listbs = ['base_language_export',
@@ -244,7 +252,7 @@ CREATE OR REPLACE FUNCTION rau_%s()
   RETURNS TRIGGER AS $rau_%s$
 	DECLARE
 	BEGIN
-	  PERFORM dblink_connect('dbname=aud_%s user=postgres password=%s');
+	  PERFORM dblink_connect('dbname=aud_%s host=127.0.0.1 user=%s password=%s');
 	-- Funcion para conservar un registro historico (auditoria) de todos los 
 	-- cambios realizados a los datos en un tabla (sean por INSERT, UPDATE o DELETE)
 	IF (TG_OP = 'INSERT') THEN
@@ -282,7 +290,7 @@ CREATE OR REPLACE FUNCTION rau_%s()
 END;
 $rau_%s$ LANGUAGE plpgsql;
 """ % (tabla[0], tabla[0], tabla[0],tabla[0],
-	database,password,tabla[0], columnas, new_columnas,
+	database,user_destino, password_destino,tabla[0], columnas, new_columnas,
 	tabla[0], columnas, new_columnas,
 	tabla[0], columnas, old_columnas,
 	tabla[0]))
