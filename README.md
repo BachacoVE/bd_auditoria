@@ -1,6 +1,7 @@
 #Algunos apuntes
 
 Para usar un rol distinto (auditoria) al de postgres es necesario
+
 Solo privilegios de INSERT
 
 ```
